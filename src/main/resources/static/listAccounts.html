@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>List of Accounts</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+  <h1>List of Accounts</h1>
+
+  <ul id="accountList"></ul>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    const apiUrl = 'http://localhost:8080/api/v1/accounts'; // Replace with your API URL
+
+    function getAllAccounts() {
+      fetch(apiUrl)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(accounts => displayAccounts(accounts))
+        .catch(error => console.error('Error:', error));
+    }
+
+    function displayAccounts(accounts) {
+      const accountList = document.getElementById('accountList');
+      accountList.innerHTML = ''; // Clear previous content
+
+      accounts.forEach(account => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `ID: ${account.id}, Name: ${account.clientName}, Balance: ${account.balance}`;
+        accountList.appendChild(listItem);
+      });
+    }
+
+    // Call the function to fetch accounts when the page loads
+    window.onload = getAllAccounts;
+</script>
+</body>
+</html>

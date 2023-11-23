@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Trancaction</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+  <h1>Trancaction</h1>
+
+  <div>
+    <h2>Withdraw Funds</h2>
+    <input type="number" id="withdrawAccountId" placeholder="Account ID">
+    <input type="number" id="withdrawAmount" placeholder="Amount">
+    <button onclick="withdrawFunds()">Withdraw Funds</button>
+  </div>
+
+  <div id="response" class="mt-3"></div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    const apiUrl = 'http://localhost:8080/api/v1/accounts'; // Replace with your API URL
+
+    function withdrawFunds() {
+      const accountId = document.getElementById('withdrawAccountId').value;
+      const amount = document.getElementById('withdrawAmount').value;
+      fetch(`${apiUrl}/withdraw?accountId=${accountId}&amount=${amount}`, { method: 'POST' })
+        .then(response => handleResponse(response));
+    }
+
+    function handleResponse(response) {
+  if (response.ok) {
+    document.getElementById('response').innerText = 'Operation successful';
+  } else {
+    response.json().then(errorData => {
+      let errorMessage = 'Error: ';
+      if (errorData && errorData.message) {
+        errorMessage += errorData.message;
+      } else {
+        errorMessage += 'An error occurred.';
+      }
+      document.getElementById('response').innerText = errorMessage;
+    }).catch(() => {
+      document.getElementById('response').innerText = 'Error: Unable to process response';
+    });
+  }
+}
+</script>
+</body>
+</html>
