@@ -16,6 +16,13 @@
         <input type="text" id="createName" placeholder="Enter Name">
         <button onclick="createAccount()">Create Account</button>
     </div>
+
+    <div>
+        <h1>List of Accounts</h1>
+
+        <ul id="accountList"></ul>
+    </div>
+
     <div>
         <h1>Account Details</h1>
 
@@ -62,6 +69,32 @@
 <script>
     const apiUrl = 'http://localhost:8080/api/v1/accounts'; // Replace with your API URL
 
+
+function getAllAccounts() {
+      fetch(apiUrl)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(accounts => displayAccounts(accounts))
+        .catch(error => console.error('Error:', error));
+    }
+
+    function displayAccounts(accounts) {
+      const accountList = document.getElementById('accountList');
+      accountList.innerHTML = ''; // Clear previous content
+
+      accounts.forEach(account => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `ID: ${account.id}, Name: ${account.clientName}, Balance: ${account.balance}`;
+        accountList.appendChild(listItem);
+      });
+    }
+
+window.onload = getAllAccounts;
+
     function createAccount() {
       const name = document.getElementById('createName').value;
       fetch(`${apiUrl}/create?name=${name}`, { method: 'POST' })
@@ -70,7 +103,7 @@
 
 function getAccountDetails() {
       const accountId = document.getElementById('accountId').value;
-      fetch(`${apiUrl}/${accountId}`, { method: 'GET' })
+      fetch(`${apiUrl}/get?accountId=${accountId}`, { method: 'POST' })
         .then(response => response.json())
         .then(data => displayAccountDetails(data))
         .catch(error => console.error('Error:', error));
@@ -113,15 +146,23 @@ function getAccountDetails() {
         .then(response => handleResponse(response));
     }
 
-    function handleResponse(response) {
-      if (response.ok) {
-        document.getElementById('response').innerText = 'Operation successful';
+function handleResponse(response) {
+  if (response.ok) {
+    document.getElementById('response').innerText = 'Operation successful';
+  } else {
+    response.json().then(errorData => {
+      let errorMessage = 'Error: ';
+      if (errorData && errorData.message) {
+        errorMessage += errorData.message;
       } else {
-        response.text().then(errorMessage => {
-          document.getElementById('response').innerText = `Error: ${errorMessage}`;
-        });
+        errorMessage += 'An error occurred.';
       }
-    }
+      document.getElementById('response').innerText = errorMessage;
+    }).catch(() => {
+      document.getElementById('response').innerText = 'Error: Unable to process response';
+    });
+  }
+}
 
 
 

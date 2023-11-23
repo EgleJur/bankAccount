@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.http.ResponseEntity.ok;
@@ -32,11 +33,15 @@ public class AccountContoller {
         return ok(accountService.createAccount(name));
     }
 
-    @GetMapping("/{accountId}")
-    public Account getAccountById(@PathVariable Long accountId) {
+    @PostMapping("/get")
+    public Account getAccountById(@RequestParam Long accountId) {
         return accountService.getAccountById(accountId);
     }
 
+    @GetMapping
+    public List<Account> getAllAccounts() {
+        return accountService.getAllAccounts();
+    }
     @PostMapping("/transfer")
     public ResponseEntity<Boolean> transferFunds(
             @RequestParam Long sourceAccountId,

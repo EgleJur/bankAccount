@@ -39,18 +39,18 @@ public class Account {
         this.clientName = clientName;
     }
 
-    public double deposit(double amount) {
-        balance += amount;
-        return balance;
-    }
-
-    public boolean withdraw(double amount) {
-        if (amount <= balance) {
-            balance -= amount;
-            return true;
-        }
-        System.out.println("Insufficient funds.");
-        return false;
-    }
+//    public double deposit(double amount) {
+//        balance += amount;
+//        return balance;
+//    }
+//
+//    public boolean withdraw(double amount) {
+//        if (amount <= balance) {
+//            balance -= amount;
+//            return true;
+//        }
+//        System.out.println("Insufficient funds.");
+//        return false;
+//    }
 
 }
