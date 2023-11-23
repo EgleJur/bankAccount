@@ -40,7 +40,11 @@
 
       accounts.forEach(account => {
         const listItem = document.createElement('li');
-        listItem.textContent = `ID: ${account.id}, Name: ${account.clientName}, Balance: ${account.balance}`;
+        listItem.textContent = `ID: ${account.id},
+                  Name: ${account.clientName},
+                  Email: ${account.email},
+                  Date of birth: ${account.dob},
+                  Balance: ${account.balance}`;
         accountList.appendChild(listItem);
       });
     }

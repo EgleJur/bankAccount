@@ -14,6 +14,8 @@
   <div>
     <h2>Create Account</h2>
     <input type="text" id="createName" placeholder="Enter Name">
+    <input type="text" id="createEmail" placeholder="Enter email">
+    <input type="text" id="dob" placeholder="Enter date of birth">
     <button onclick="createAccount()">Create Account</button>
   </div>
 
@@ -28,11 +30,36 @@
 <script>
     const apiUrl = 'http://localhost:8080/api/v1/accounts'; // Replace with your API URL
 
+<!--    function createAccount() {-->
+<!--      const name = document.getElementById('createName').value;-->
+<!--      fetch(`${apiUrl}/create`, { method: 'POST' })-->
+<!--        .then(response => handleResponse(response));-->
+<!--    }-->
+
     function createAccount() {
-      const name = document.getElementById('createName').value;
-      fetch(`${apiUrl}/create?name=${name}`, { method: 'POST' })
-        .then(response => handleResponse(response));
-    }
+  const name = document.getElementById('createName').value;
+  const email = document.getElementById('createEmail').value;
+  const dobInput = document.getElementById('dob').value;
+
+  const dob = new Date(dobInput);
+  const formattedDob = dob.toISOString().split('T')[0];
+
+  // Creating an object in the format expected by the backend
+  const accountDto = {
+    clientName: name,
+    email: email,
+    dob: dob,
+  };
+
+  fetch(`${apiUrl}/create`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json' // Specify content type as JSON
+    },
+    body: JSON.stringify(accountDto) // Convert object to JSON string
+  })
+  .then(response => handleResponse(response));
+}
 
    function handleResponse(response) {
   if (response.ok) {

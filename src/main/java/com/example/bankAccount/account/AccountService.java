@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.example.bankAccount.account.AccountMapper.toAccountDto;
 import static com.example.bankAccount.transactions.DepositService.depositService;
 import static com.example.bankAccount.transactions.TransferService.transfer;
 import static com.example.bankAccount.validationUnits.ValidationUtilsNotNull.*;
@@ -29,17 +30,16 @@ public class AccountService {
         accountUtils = new AccountUtils(accountRepository);
     }
 
-    public Account createAccount(String name) {
-        isValidByName(name);
-        Account newAccount = new Account(name);
-        logger.info("Account created successfully: ");
+    public Account createAccount(Account account) {
 
-        return accountRepository.save(newAccount);
+        logger.info("Account created successfully: ");
+        return accountRepository.save(account);
     }
 
     public Account getAccountById(Long accountId) {
         return accountUtils.getAccountById(accountId);
     }
+
     public List<Account> getAllAccounts() {
         return accountRepository.findAll();
     }
@@ -73,5 +73,10 @@ public class AccountService {
         WithdrawService.withdraw(account, amount);
         logger.info("Withdraw successful form account " + accountId);
         return accountRepository.save(account);
+    }
+
+    public void deleteAccount(Long accountId) {
+        accountRepository.deleteById(accountId);
+        logger.info("Account deleted successfully " + accountId);
     }
 }

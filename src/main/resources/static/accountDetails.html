@@ -41,8 +41,10 @@
       if (account) {
         const detailsHTML = `
           <h2>Account Details</h2>
-          <p><strong>ID:</strong> ${account.id}</p>
+<!--          <p><strong>ID:</strong> ${account.id}</p>-->
           <p><strong>Name:</strong> ${account.clientName}</p>
+          <p><strong>Email:</strong> ${account.email}</p>
+          <p><strong>Date of birth:</strong> ${account.dob}</p>
           <p><strong>Balance:</strong> ${account.balance}</p>
         `;
         accountDetailsDiv.innerHTML = detailsHTML;

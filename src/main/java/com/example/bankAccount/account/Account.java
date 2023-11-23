@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "ACCOUNTS")
@@ -21,36 +22,26 @@ public class Account {
     @Column
     private String clientName;
     @Column
+    private String email;
+    @Column
+    private LocalDate dob;
+    @Column
     private double balance;
 
 
     public Account() {
-        balance = 0.0;
+        balance = 0.00;
         clientName = "";
     }
 
     public Account(String clientName) {
         this.clientName = clientName;
-        this.balance = 500;
+        this.balance = 0.00;
     }
 
     public Account(double balance, String clientName) {
         this.balance = balance;
         this.clientName = clientName;
     }
-
-//    public double deposit(double amount) {
-//        balance += amount;
-//        return balance;
-//    }
-//
-//    public boolean withdraw(double amount) {
-//        if (amount <= balance) {
-//            balance -= amount;
-//            return true;
-//        }
-//        System.out.println("Insufficient funds.");
-//        return false;
-//    }
 
 }

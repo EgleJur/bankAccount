@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+import static com.example.bankAccount.account.AccountMapper.toAccount;
 import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
@@ -29,8 +30,8 @@ public class AccountContoller {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Account> createAccount(@RequestParam String name) {
-        return ok(accountService.createAccount(name));
+    public ResponseEntity<Account> createAccount(@RequestBody AccountDto accountDto) {
+        return ok(accountService.createAccount(toAccount(accountDto)));
     }
 
     @PostMapping("/get")
@@ -42,6 +43,7 @@ public class AccountContoller {
     public List<Account> getAllAccounts() {
         return accountService.getAllAccounts();
     }
+
     @PostMapping("/transfer")
     public ResponseEntity<Boolean> transferFunds(
             @RequestParam Long sourceAccountId,
@@ -65,6 +67,10 @@ public class AccountContoller {
             @RequestParam double amount) {
         return ok(accountService.withdraw(amount, accountId));
 
+    }
+    @DeleteMapping
+    public void deleteAccount(@RequestParam Long accountId){
+        accountService.deleteAccount(accountId);
     }
 }
 
