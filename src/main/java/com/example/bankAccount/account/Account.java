@@ -1,5 +1,8 @@
 package com.example.bankAccount.account;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -7,6 +10,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "ACCOUNTS")
+@Data
+@AllArgsConstructor
 public class Account {
 
     static final Logger logger = LogManager.getLogger(Account.class.getName());
@@ -48,29 +53,4 @@ public class Account {
         return false;
     }
 
-    public void printBalance() {
-
-        System.out.println("Balance: " + balance);
-
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getClientName() {
-        return clientName;
-    }
-
-    public double getBalance() {
-        return balance;
-    }
-
-    public void setBalance(int balance) {
-        this.balance = balance;
-    }
 }
